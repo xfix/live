@@ -13,9 +13,29 @@
 &lt;p&gt; Welcome to the real-time HTML editor. Type HTML in the textarea above, and it will appear in a frame below.	</div>
 <script src="https://cdn.jsdelivr.net/ace/1.1.9/min/ace.js"></script>
 <script>
+function safeHTML(text) {
+	// The exact name doesn't matter
+	var div = document.createElement('div')
+	div.appendChild(document.createTextNode(text))
+	return div.innerHTML
+}
 function onChange() {
-	var document = top.preview.document
+	var previewFrame = top.preview
+	var document = previewFrame.document
 	document.open()
+	// Shouldn't occur in theory.
+	if (!previewFrame.console) {
+		previewFrame.console = {}
+	}
+	var previousConsoleLog = previewFrame.console.log || function () {}
+	previewFrame.console.log = function log() {
+		for (var i = 0; i < arguments.length; i++) {
+			var argument = arguments[i]
+			document.write('<pre>' + safeHTML(argument) + '</pre>')
+		}
+		// Show result on console as well
+		previousConsoleLog.apply(this, arguments)
+	}
 	document.write(editor.getSession().getValue())
 	document.close()
 }
