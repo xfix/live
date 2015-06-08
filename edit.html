@@ -31,10 +31,26 @@ function onChange() {
 	previewFrame.console.log = function log() {
 		for (var i = 0; i < arguments.length; i++) {
 			var argument = arguments[i]
-			document.write('<pre>' + safeHTML(argument) + '</pre>')
+			var safe
+			try {
+				safe = safeHTML(argument)
+			}
+			catch (e) {
+				try {
+					safe = safeHTML(e)
+				}
+				// If you insist...
+				catch (e) {
+					safe = 'Exception while processing exception yo dawg?'
+				}
+			}
+			document.write('<pre>' + safe + '</pre>')
 		}
 		// Show result on console as well
 		previousConsoleLog.apply(this, arguments)
+	}
+	previewFrame.onerror = function onerror(e) {
+		previewFrame.console.log(e)
 	}
 	document.write(editor.getSession().getValue())
 	document.close()
