@@ -32,8 +32,11 @@ function onChange() {
 		for (var i = 0; i < arguments.length; i++) {
 			var argument = arguments[i]
 			var safe
+			var uneval = window.uneval || function uneval(value) {
+				return value
+			}
 			try {
-				safe = safeHTML(argument)
+				safe = safeHTML(uneval(argument))
 			}
 			catch (e) {
 				try {
