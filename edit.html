@@ -27,7 +27,7 @@ function onChange() {
 	if (!previewFrame.console) {
 		previewFrame.console = {}
 	}
-	var previousConsoleLog = previewFrame.console.log || function () {}
+	var previousConsoleLog = window.console && console.log || function () {}
 	previewFrame.console.log = function log() {
 		for (var i = 0; i < arguments.length; i++) {
 			var argument = arguments[i]
