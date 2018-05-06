@@ -23,38 +23,6 @@ function onChange() {
 	var previewFrame = top.preview
 	var document = previewFrame.document
 	document.open()
-	// Shouldn't occur in theory.
-	if (!previewFrame.console) {
-		previewFrame.console = {}
-	}
-	var previousConsoleLog = window.console && console.log || function () {}
-	previewFrame.console.log = function log() {
-		for (var i = 0; i < arguments.length; i++) {
-			var argument = arguments[i]
-			var safe
-			var uneval = window.uneval || function uneval(value) {
-				return value
-			}
-			try {
-				safe = safeHTML(uneval(argument))
-			}
-			catch (e) {
-				try {
-					safe = safeHTML(e)
-				}
-				// If you insist...
-				catch (e) {
-					safe = 'Exception while processing exception yo dawg?'
-				}
-			}
-			document.write('<pre>' + safe + '</pre>')
-		}
-		// Show result on console as well
-		previousConsoleLog.apply(this, arguments)
-	}
-	previewFrame.onerror = function onerror(e) {
-		previewFrame.console.log(e)
-	}
 	document.write(editor.getSession().getValue())
 	document.close()
 }
