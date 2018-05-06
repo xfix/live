@@ -13,12 +13,6 @@
 &lt;p&gt; Welcome to the real-time HTML editor. Type HTML in the textarea above, and it will appear in a frame below.</div>
 <script src="https://cdn.jsdelivr.net/ace/1.1.9/min/ace.js"></script>
 <script>
-function safeHTML(text) {
-	// The exact name doesn't matter
-	var div = document.createElement('div')
-	div.appendChild(document.createTextNode(text))
-	return div.innerHTML
-}
 function onChange() {
 	var previewFrame = top.preview
 	var document = previewFrame.document
