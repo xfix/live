@@ -1,11 +1,13 @@
-name: Deploy
+name: Build
 on:
   push:
+    branches: [master]
+  pull_request:
     branches: [master]
 permissions:
   contents: write
 jobs:
-  deploy:
+  build:
     concurrency: production
     runs-on: ubuntu-latest
     steps:
@@ -16,3 +18,4 @@ jobs:
         with:
           branch: gh-pages
           folder: dist
+        if: github.ref == 'ref/head/master'
