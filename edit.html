@@ -12,10 +12,12 @@
   import { EditorState, EditorView, basicSetup } from "@codemirror/basic-setup";
   import { html } from "@codemirror/lang-html";
   function onChange() {
+    const doc = editor.state.doc.toString();
+    localStorage.setItem("code", doc);
     var previewFrame = top.preview;
     var document = previewFrame.document;
     document.open();
-    document.write(editor.state.doc);
+    document.write(doc);
     document.close();
   }
   var timeout = null;
@@ -30,9 +32,10 @@
   const editor = new EditorView({
     state: EditorState.create({
       doc:
+        localStorage.getItem("code") ||
         "<!DOCTYPE html>\n" +
-        "<p> Welcome to the real-time HTML editor. Type HTML in " +
-        "the textarea above, and it will appear in a frame below.",
+          "<p> Welcome to the real-time HTML editor. Type HTML in " +
+          "the textarea above, and it will appear in a frame below.",
       extensions: [
         basicSetup,
         html(),
