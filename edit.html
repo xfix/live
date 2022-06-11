@@ -9,8 +9,7 @@
   }
 </style>
 <script type="module">
-  import { html } from "@codemirror/lang-html";
-  import { EditorState } from "@codemirror/state";
+  import { Compartment } from "@codemirror/state";
   import { EditorView, basicSetup } from "codemirror";
   function onChange() {
     const doc = editor.state.doc.toString();
@@ -30,6 +29,7 @@
       onChange();
     }, 300);
   }
+  const language = new Compartment();
   const editor = new EditorView({
     doc:
       localStorage.getItem("code") ||
@@ -38,12 +38,16 @@
         "the textarea above, and it will appear in a frame below.",
     extensions: [
       basicSetup,
-      html(),
+      language.of([]),
       EditorView.updateListener.of((update) => {
         if (update.docChanged) debounceChanges();
       }),
     ],
     parent: document.body,
   });
+  (async () => {
+    const { html } = await import("@codemirror/lang-html");
+    editor.dispatch({ effects: language.reconfigure(html()) });
+  })();
   onChange();
 </script>
