@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <!-- Invalid HTML5, just to avoid Quirks mode -->
   <title>Live HTML Editor</title>
-  <frameset rows="50%, 50%">
-    <frame src="edit.html" name="edit" title="HTML code editor" />
-    <frame src="about:blank" name="preview" title="Output" />
-  </frameset>
+  <script type="module" src="/src/main"></script>
+  <div id="editor"></div>
+  <iframe name="preview" title="Output"></iframe>
 </html>
