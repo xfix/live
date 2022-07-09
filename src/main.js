@@ -4,11 +4,7 @@ import { EditorView, basicSetup } from "codemirror";
 function onChange() {
   const doc = editor.state.doc.toString();
   localStorage.setItem("code", doc);
-  var previewFrame = preview;
-  var document = previewFrame.document;
-  document.open();
-  document.write(doc);
-  document.close();
+  document.getElementsByName("preview")[0].srcdoc = doc;
 }
 var timeout = null;
 function debounceChanges() {
