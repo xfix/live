@@ -4,9 +4,9 @@ import { EditorView, basicSetup } from "codemirror";
 function onChange() {
   const doc = editor.state.doc.toString();
   localStorage.setItem("code", doc);
-  document.getElementsByName("preview")[0].srcdoc = doc;
+  (document.getElementById("preview") as HTMLIFrameElement).srcdoc = doc;
 }
-var timeout = null;
+var timeout: ReturnType<typeof setTimeout> | null = null;
 function debounceChanges() {
   if (timeout) {
     clearTimeout(timeout);
@@ -29,7 +29,7 @@ const editor = new EditorView({
       if (update.docChanged) debounceChanges();
     }),
   ],
-  parent: document.getElementById("editor"),
+  parent: document.getElementById("editor") as HTMLElement,
 });
 (async () => {
   const { html } = await import("@codemirror/lang-html");
