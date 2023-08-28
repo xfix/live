@@ -13,7 +13,7 @@
     "vite": "^4.4.9"
   },
   "dependencies": {
-    "@codemirror/lang-html": "^6.4.5",
+    "@codemirror/lang-html": "^6.4.6",
     "@codemirror/state": "^6.2.1",
     "codemirror": "^6.0.1"
   }
